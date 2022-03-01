@@ -47,8 +47,13 @@ def random_point(size):
     """
     return randint(0, size -1)
 
+def valid_coordinates(x ,y, board):
 
+def populate_board(board):
 
+def make_guess(board):
+
+def play_game(computer_board, player_board):
 
 
 
