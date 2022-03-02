@@ -56,13 +56,36 @@ def populate_board(board):
 
 
 
-def make_guess(board):
-    print("hallo")
+def make_row_guess():
+    guess_row_player = input("Please guess row number: \n")
+    try:
+        guess_row_player_int = int(guess_row_player)
+    except Exception as e:
+        print("[" + guess_row_player + "] is not a number" )
+        make_row_guess()
+    else:
+        return guess_row_player_int
 
+
+def make_col_guess():
+    guess_col_player = input("Please guess column number: \n")
+    try:
+        guess_col_player_int = int(guess_col_player)
+    except Exception as e:
+        print("[" + guess_col_player + "] is not a number" )
+        make_col_guess()
+    else:
+        return guess_col_player_int
+
+    
+
+    
 def play_game(computer_board, player_board):
     print_board(player_board)
     print_board(computer_board)
-    
+    row_guess = make_row_guess()
+    col_guess = make_col_guess()
+
 def print_board(board):
     print(f'{board.name}\'s board')
     for row in board.board:
