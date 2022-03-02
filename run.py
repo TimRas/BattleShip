@@ -60,8 +60,18 @@ def make_guess(board):
     print("hallo")
 
 def play_game(computer_board, player_board):
-    print("hallo")
-
+    print_board(player_board)
+    print_board(computer_board)
+    
+def print_board(board):
+    print(f'{board.name}\'s board')
+    for row in board.board:
+        element_row = ""
+        for element in row:
+            element_row += "    " + element
+        print(element_row)
+        print("")
+       
 
 
 def new_game():
