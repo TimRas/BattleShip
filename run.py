@@ -48,7 +48,17 @@ def random_coordinate(size):
     return randint(0, size -1)
 
 def valid_coordinates(x ,y, board):
-    print("hallo")
+    """
+    Split exception message. Then do board.guess!!!!!!!!!!
+    """
+    try:
+        get_coords = board.board[x][y]
+        if get_coords == ".":
+            return  True
+    except:
+        print("Invalid guesses try again")
+    return  False
+    
 
 def populate_board(board):
     for _ in range(board.num_ships):
