@@ -33,7 +33,7 @@ class Board:
         else:
             return "Miss"
 
-    def add_ship(self, x, y, type="computer"):
+    def add_ship(self, x, y):
         if len(self.ships) >= self.num_ships:
             print("Error: you cannot add anymore ships!")
         else:
@@ -41,19 +41,26 @@ class Board:
             if self.type == "player":
                 self.board[x][y] = "@"
 
-def random_point(size):
+def random_coordinate(size):
     """
     Helper function to return a random integer between 0 and size
     """
     return randint(0, size -1)
 
 def valid_coordinates(x ,y, board):
+    print("hallo")
 
 def populate_board(board):
+    for _ in range(board.num_ships):
+        board.add_ship(random_coordinate(board.size), random_coordinate(board.size)) 
+
+
 
 def make_guess(board):
+    print("hallo")
 
 def play_game(computer_board, player_board):
+    print("hallo")
 
 
 
@@ -78,9 +85,9 @@ def new_game():
     computer_board = Board(size, num_ships, "computer", type="computer")
     player_board = Board(size, num_ships, player_name, type="player")
 
-    for _ in range(num_ships):
-        populate_board(player_board)
-        populate_board(computer_board)
+    
+    populate_board(player_board)
+    populate_board(computer_board)
 
     play_game(computer_board, player_board)
 
