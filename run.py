@@ -53,12 +53,12 @@ def random_coordinate(size):
     """
     return randint(0, size -1)
 
-def valid_coordinates(x, y, board):  
+def valid_coordinates(x, y, board, type = "computer"):  
     try:
         get_coords = board.board[x][y]
         if get_coords == "." or get_coords == "@":
             return True
-        else:
+        elif type == "player":
             print("You've already hit this position!")      
     except Exception as _:
         print(f"Guess is out of bounds, try again")
@@ -67,7 +67,16 @@ def valid_coordinates(x, y, board):
 
 def populate_board(board):
     for _ in range(board.num_ships):
-        board.add_ship(random_coordinate(board.size), random_coordinate(board.size)) 
+        x = random_coordinate(board.size)
+        y = random_coordinate(board.size)
+        while has_boat(x, y, board):
+            x = random_coordinate(board.size)
+            y = random_coordinate(board.size)
+        board.add_ship(x, y) 
+
+def has_boat(x, y, board):  
+        get_coords = board.board[x][y]
+        return get_coords == "@"    
 
 
 
@@ -106,7 +115,7 @@ def play_game(computer_board, player_board):
 def ask_player_guess(computer_board):
     player_row_guess = make_row_guess()
     player_col_guess = make_col_guess()
-    while not(valid_coordinates(player_row_guess, player_col_guess, computer_board)): 
+    while not(valid_coordinates(player_row_guess, player_col_guess, computer_board, "player")): 
         player_row_guess = make_row_guess()
         player_col_guess = make_col_guess()
     return computer_board.guess(player_row_guess, player_col_guess)
