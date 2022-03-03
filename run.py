@@ -26,9 +26,10 @@ class Board:
     def guess(self, x, y):
         self.guesses.append((x, y))
         self.board[x][y] = "X"
+    
 
         if (x, y) in self.ships:
-            self.board[x][y] = "*"
+            self.board[x][y] = "O"
             return "Hit"
         else:
             return "Miss"
@@ -47,17 +48,16 @@ def random_coordinate(size):
     """
     return randint(0, size -1)
 
-def valid_coordinates(x ,y, board):
-    """
-    Split exception message. Then do board.guess!!!!!!!!!!
-    """
+def valid_coordinates(x, y, board):  
     try:
         get_coords = board.board[x][y]
         if get_coords == ".":
-            return  True
-    except:
-        print("Invalid guesses try again")
-    return  False
+            return True
+        else:
+            print("You've already hit this position!")      
+    except Exception as _:
+        print(f"Guess is out of bounds, try again")
+    return False
     
 
 def populate_board(board):
@@ -83,7 +83,7 @@ def make_col_guess():
         guess_col_player_int = int(guess_col_player)
     except Exception as e:
         print("[" + guess_col_player + "] is not a number" )
-        make_col_guess()
+        return make_col_guess()
     else:
         return guess_col_player_int
 
@@ -93,8 +93,34 @@ def make_col_guess():
 def play_game(computer_board, player_board):
     print_board(player_board)
     print_board(computer_board)
-    row_guess = make_row_guess()
-    col_guess = make_col_guess()
+    player_result = ask_player_guess(computer_board)
+    computer_result = generate_computer_guess(player_board)
+    player_row_guess, player_col_guess = computer_board.guesses[len(computer_board.guesses) -1] 
+    computer_row_guess, computer_col_guess = player_board.guesses[len(player_board.guesses) -1]
+    next_round(player_result, computer_result, player_row_guess, player_col_guess, computer_row_guess, computer_col_guess)
+    play_game(computer_board, player_board)
+
+def ask_player_guess(computer_board):
+    player_row_guess = make_row_guess()
+    player_col_guess = make_col_guess()
+    while not(valid_coordinates(player_row_guess, player_col_guess, computer_board)): 
+        player_row_guess = make_row_guess()
+        player_col_guess = make_col_guess()
+    return computer_board.guess(player_row_guess, player_col_guess)
+
+def generate_computer_guess(player_board):
+    computer_row_guess = random_coordinate(player_board.size)
+    computer_col_guess = random_coordinate(player_board.size)
+    while not(valid_coordinates(computer_row_guess, computer_col_guess, player_board)):
+        computer_row_guess = random_coordinate(player_board.size)
+        computer_col_guess = random_coordinate(player_board.size)
+    return player_board.guess(computer_row_guess, computer_col_guess)
+
+def next_round(player_result, computer_result, player_row_guess, player_col_guess, computer_row_guess, computer_col_guess):
+    print(f"Player guessed: [{player_row_guess}, {player_col_guess}] ")
+    print(f"Player shot resulted in a {player_result}")
+    print(f"Computer guessed: [{computer_row_guess}, {computer_col_guess}]")
+    print(f'Computer shot resulted in a {computer_result}')
 
 def print_board(board):
     print(f'{board.name}\'s board')
