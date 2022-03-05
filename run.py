@@ -24,11 +24,10 @@ class Board:
     def print(self):
         for row in self.board:
             print(" ".join(row))
-    
+
     def guess(self, x, y):
         self.guesses.append((x, y))
         self.board[x][y] = "X"
-    
 
         if (x, y) in self.ships:
             self.board[x][y] = "O"
@@ -47,23 +46,25 @@ class Board:
             if self.type == "player":
                 self.board[x][y] = "@"
 
+
 def random_coordinate(size):
     """
     Helper function to return a random integer between 0 and size
     """
-    return randint(0, size -1)
+    return randint(0, size-1)
 
-def valid_coordinates(x, y, board, type = "computer"):  
+
+def valid_coordinates(x, y, board, type="computer"):
     try:
         get_coords = board.board[x][y]
         if get_coords == "." or get_coords == "@":
             return True
         elif type == "player":
-            print("You've already hit this position!")      
+            print("You've already hit this position!")
     except Exception as _:
         print(f"Guess is out of bounds, try again")
     return False
-    
+
 
 def populate_board(board):
     for _ in range(board.num_ships):
@@ -72,12 +73,12 @@ def populate_board(board):
         while has_boat(x, y, board):
             x = random_coordinate(board.size)
             y = random_coordinate(board.size)
-        board.add_ship(x, y) 
+        board.add_ship(x, y)
 
-def has_boat(x, y, board):  
+
+def has_boat(x, y, board):
         get_coords = board.board[x][y]
-        return get_coords == "@"    
-
+        return get_coords == "@"
 
 
 def make_row_guess():
@@ -85,7 +86,7 @@ def make_row_guess():
     try:
         guess_row_player_int = int(guess_row_player)
     except Exception as e:
-        print("[" + guess_row_player + "] is not a number" )
+        print("[" + guess_row_player + "] is not a number")
         return make_row_guess()
     else:
         return guess_row_player_int
@@ -96,29 +97,28 @@ def make_col_guess():
     try:
         guess_col_player_int = int(guess_col_player)
     except Exception as e:
-        print("[" + guess_col_player + "] is not a number" )
+        print("[" + guess_col_player + "] is not a number")
         return make_col_guess()
     else:
         return guess_col_player_int
 
-    
 
-    
 def play_game(computer_board, player_board):
     print_board(player_board)
     print_board(computer_board)
     player_result = ask_player_guess(computer_board)
     computer_result = generate_computer_guess(player_board)
     next_round(player_result, computer_result, player_board, computer_board)
-    
+
 
 def ask_player_guess(computer_board):
     player_row_guess = make_row_guess()
     player_col_guess = make_col_guess()
-    while not(valid_coordinates(player_row_guess, player_col_guess, computer_board, "player")): 
+    while not(valid_coordinates(player_row_guess, player_col_guess, computer_board, "player")):
         player_row_guess = make_row_guess()
         player_col_guess = make_col_guess()
     return computer_board.guess(player_row_guess, player_col_guess)
+
 
 def generate_computer_guess(player_board):
     computer_row_guess = random_coordinate(player_board.size)
@@ -128,9 +128,10 @@ def generate_computer_guess(player_board):
         computer_col_guess = random_coordinate(player_board.size)
     return player_board.guess(computer_row_guess, computer_col_guess)
 
+
 def next_round(player_result, computer_result, player_board, computer_board):
-    player_row_guess, player_col_guess = computer_board.guesses[len(computer_board.guesses) -1]
-    computer_row_guess, computer_col_guess = player_board.guesses[len(player_board.guesses) -1] 
+    player_row_guess, player_col_guess = computer_board.guesses[len(computer_board.guesses)-1]
+    computer_row_guess, computer_col_guess = player_board.guesses[len(player_board.guesses)-1]
     print(f"{player_board.name} guessed: [{player_row_guess}, {player_col_guess}] ")
     print(f"{player_board.name}'s shot resulted in a {player_result}")
     print(f"Computer guessed: [{computer_row_guess}, {computer_col_guess}]")
@@ -146,12 +147,12 @@ def next_round(player_result, computer_result, player_board, computer_board):
         play_game(computer_board, player_board)
 
         # while True:  # making a loop
-        #         if keyboard.is_pressed('y'):  # if key 'q' is pressed 
+        #         if keyboard.is_pressed('y'):  # if key 'q' is pressed
         #             new_game()
         #             break  # finishing the loop
         #         elif keyboard.is_pressed('n'):
         #             quit()
-            
+
 
 def print_board(board):
     print(f'{board.name}\'s board')
@@ -161,7 +162,6 @@ def print_board(board):
             element_row += "    " + element
         print(element_row)
         print("")
-       
 
 
 def new_game():
@@ -185,18 +185,11 @@ def new_game():
     computer_board = Board(size, num_ships, "computer", type="computer")
     player_board = Board(size, num_ships, player_name, type="player")
 
-    
     populate_board(player_board)
     populate_board(computer_board)
 
     play_game(computer_board, player_board)
 
 
-
-
-
 new_game()
-
-
-
 
