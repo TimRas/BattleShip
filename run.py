@@ -1,5 +1,5 @@
 from random import randint
-import keyboard
+
 
 scores = {"computer": 0, "player": 0}
 
@@ -51,22 +51,34 @@ def random_coordinate(size):
     """
     Helper function to return a random integer between 0 and size
     """
+
     return randint(0, size-1)
 
 
 def valid_coordinates(x, y, board, type="computer"):
+    """
+    Checks if the row and column input is within bounds and
+    if spot has been hit.
+    """
+
     try:
         get_coords = board.board[x][y]
         if get_coords == "." or get_coords == "@":
             return True
         elif type == "player":
             print("You've already hit this position!")
-    except Exception as _:
-        print(f"Guess is out of bounds, try again")
+    except IndexError:
+        print("Guess is out of bounds, try again")
     return False
 
 
 def populate_board(board):
+    """
+    Populates board one by one for each number of ships there are. If a
+    coordinate has a ship, it will find another spot till all
+    ships are on the board.
+    """
+
     for _ in range(board.num_ships):
         x = random_coordinate(board.size)
         y = random_coordinate(board.size)
@@ -77,15 +89,24 @@ def populate_board(board):
 
 
 def has_boat(x, y, board):
-        get_coords = board.board[x][y]
-        return get_coords == "@"
+    """
+    Checks if coordinates already have a ship on them.
+    """
+
+    get_coords = board.board[x][y]
+    return get_coords == "@"
 
 
 def make_row_guess():
+    """
+    Lets user input a row number. Input must be an int and if not an error will
+    occur. This will trigger the function yet again from the beginning.
+    """
+
     guess_row_player = input("Please guess row number: \n")
     try:
         guess_row_player_int = int(guess_row_player)
-    except Exception as e:
+    except ValueError:
         print("[" + guess_row_player + "] is not a number")
         return make_row_guess()
     else:
@@ -93,10 +114,15 @@ def make_row_guess():
 
 
 def make_col_guess():
+    """
+    Lets user input a column number. Input must be an int and if not an error
+    will occur. This will trigger the function yet again from the beginning.
+    """
+
     guess_col_player = input("Please guess column number: \n")
     try:
         guess_col_player_int = int(guess_col_player)
-    except Exception as e:
+    except ValueError:
         print("[" + guess_col_player + "] is not a number")
         return make_col_guess()
     else:
@@ -104,6 +130,11 @@ def make_col_guess():
 
 
 def play_game(computer_board, player_board):
+    """
+    Plays out new round by printing current boards
+    and starting the guess cycle.
+    """
+
     print_board(player_board)
     print_board(computer_board)
     player_result = ask_player_guess(computer_board)
@@ -112,24 +143,41 @@ def play_game(computer_board, player_board):
 
 
 def ask_player_guess(computer_board):
+    """
+    Checks if both guesses from user are valid. Will ask again until valid.
+    Will return the guessed result.
+    """
+
     player_row_guess = make_row_guess()
     player_col_guess = make_col_guess()
-    while not(valid_coordinates(player_row_guess, player_col_guess, computer_board, "player")):
+    while not(valid_coordinates(player_row_guess, player_col_guess,
+              computer_board, "player")):
         player_row_guess = make_row_guess()
         player_col_guess = make_col_guess()
     return computer_board.guess(player_row_guess, player_col_guess)
 
 
 def generate_computer_guess(player_board):
+    """
+    Checks if generated input from computer is valid.
+    Will ask again until valid. Will return the guessed result.
+    """
+
     computer_row_guess = random_coordinate(player_board.size)
     computer_col_guess = random_coordinate(player_board.size)
-    while not(valid_coordinates(computer_row_guess, computer_col_guess, player_board)):
+    while not(valid_coordinates(computer_row_guess,
+              computer_col_guess, player_board)):
         computer_row_guess = random_coordinate(player_board.size)
         computer_col_guess = random_coordinate(player_board.size)
     return player_board.guess(computer_row_guess, computer_col_guess)
 
 
 def next_round(player_result, computer_result, player_board, computer_board):
+    """
+    Will show the guess and if they are a hit, miss or win. If all boats
+    have been hit it will ask the user to continue or quit the game.
+    """
+
     player_row_guess, player_col_guess = computer_board.guesses[len(computer_board.guesses)-1]
     computer_row_guess, computer_col_guess = player_board.guesses[len(player_board.guesses)-1]
     print(f"{player_board.name} guessed: [{player_row_guess}, {player_col_guess}] ")
@@ -146,15 +194,12 @@ def next_round(player_result, computer_result, player_board, computer_board):
     else:
         play_game(computer_board, player_board)
 
-        # while True:  # making a loop
-        #         if keyboard.is_pressed('y'):  # if key 'q' is pressed
-        #             new_game()
-        #             break  # finishing the loop
-        #         elif keyboard.is_pressed('n'):
-        #             quit()
-
 
 def print_board(board):
+    """
+    Prints a grid to play on.
+    """
+
     print(f'{board.name}\'s board')
     for row in board.board:
         element_row = ""
@@ -166,8 +211,8 @@ def print_board(board):
 
 def new_game():
     """
-    Starts a new game. Sets the board size and number of ships, resets the scores and
-    initialises the boards.
+    Starts a new game. Sets the board size and number of ships,
+    resets the scores and initialises the boards.
     """
 
     size = 5
@@ -176,13 +221,13 @@ def new_game():
     scores["player"] = 0
     print("-" * 35)
     print("Welcome to BattleShip!")
-    print(f" Boards size: {size}, number of ships {num_ships}")
+    print(f" Boards size: {size}, number of ships: {num_ships}")
     print(" Top left corner is row: 0, column: 0")
     print("-" * 35)
     player_name = input("Please enter name here:\n")
     print("-" * 35)
 
-    computer_board = Board(size, num_ships, "computer", type="computer")
+    computer_board = Board(size, num_ships, "Computer", type="computer")
     player_board = Board(size, num_ships, player_name, type="player")
 
     populate_board(player_board)
@@ -192,4 +237,3 @@ def new_game():
 
 
 new_game()
-
