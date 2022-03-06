@@ -116,6 +116,8 @@ This project was deployed in Code Institute's mock terminal for Heroku.
         <li>make_guess and play_game</li> 
     but filled this in to my own accord.
     </ul>
+    <li> I've looked at the read me file inside the portfolio project scope video and used it as an example while making my own read me file. I've filled this in to my own accord.
+</ul>
     <li> I've used the wikipedia for information about the Battleships game.</li>
     <li> Code Institute for the terminal deployment.</li>
 
