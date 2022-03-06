@@ -3,8 +3,9 @@
 BattleShip is a strategy guessing game for two players run through a mock up terminal. 
 If the player or the computer is able to land four hits on its opponent ships through guessing coordinates on a grid, they win the game. 
 
-![A live version of my project](https://battles-ship.herokuapp.com/)
+[A live version of my project](https://battles-ship.herokuapp.com/)
 
+![Image of multiple screen sizes](images/rimages/multi%20devices.png)
 ## How to play
 <hr>
 After entering your name, two boards will randomly generate. One is for the player and the other one for the computer. Your boats are indicated by the @ sign. The boats of your oppenent are not shown. You will pick a row number and column number between 0 and 4. The top left corner is [0, 0]. The player and computer will switch sides until one of them hits the four boats of their opponent. After the game you are able to restart the game or quit the app. Enjoy!
@@ -84,6 +85,8 @@ I've tested this project by doing the following:
 <ul>
     <li> pep8 E501 error occurred from line 181 till 189. This error states that your line of code is above 79 characters. I've tried to fix this but couldn't figure out how to shorten the line without breaking the functions of the code. This didn't affect the code and program itself so I decided to keep it like it is.</li>
 </ul>
+
+[Link to pep8 python checker](http://pep8online.com/)
 
 ## Deployment
 <hr>
