@@ -104,6 +104,18 @@ This project was deployed in Code Institute's mock terminal for Heroku.
 ## Credits
 <ul>
     <li> I've used some of the code shown in the portfolio project scope video. The code was reusable for my own project so instead of reinventing the wheel I used what was given.</li>
+    <ul>These include: 
+        <li>The random library</li>
+        <li>The Board class and its methods</li>
+        <li>The scores variable</li>
+        <li>The random_coordinate function and the new_game function</li>
+    </ul> 
+    <ul>I've used the same name for the following functions also:
+        <li>valid_coordinates</li>
+        <li>populate_board</li>
+        <li>make_guess and play_game</li> 
+    but filled this in to my own accord.
+    </ul>
     <li> I've used the wikipedia for information about the Battleships game.</li>
     <li> Code Institute for the terminal deployment.</li>
 
